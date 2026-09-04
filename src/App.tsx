@@ -14,6 +14,7 @@ import { ResumeModal } from './components/ResumeModal';
 import { ShortcutsModal } from './components/ShortcutsModal';
 import { ShortcutsBar } from './components/ShortcutsBar';
 import { Toast } from './components/Toast';
+import { playCopySuccessSound, playClickSound, isAudioEnabled, setAudioEnabled } from './utils/audioFeedback';
 
 export default function App() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -55,6 +56,7 @@ export default function App() {
 
   // Copy helper
   const handleCopy = (text: string, label: string) => {
+    playCopySuccessSound();
     navigator.clipboard.writeText(text).then(
       () => {
         setToastMessage(`${label} copied to clipboard!`);
@@ -116,7 +118,19 @@ export default function App() {
           return next;
         });
       }
-      // 6. '?' -> Open Shortcuts Modal
+      // 6. 's' or 'S' -> Toggle Button Audio Feedback
+      else if (e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        const current = isAudioEnabled();
+        const next = !current;
+        setAudioEnabled(next);
+        if (next) {
+          playClickSound();
+        }
+        setToastMessage(next ? 'Sound effects enabled (Press S to mute)' : 'Sound effects muted');
+        setTimeout(() => setToastMessage(null), 3000);
+      }
+      // 7. '?' -> Open Shortcuts Modal
       else if (e.key === '?') {
         e.preventDefault();
         setIsShortcutsOpen((prev) => !prev);

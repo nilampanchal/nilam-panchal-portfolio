@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Keyboard, Sun, Moon, FileText, X } from 'lucide-react';
+import { Keyboard, Sun, Moon, FileText, X, Volume2, VolumeX } from 'lucide-react';
+import { useAudioFeedback } from '../hooks/useAudioFeedback';
 
 interface ShortcutsBarProps {
   theme: 'dark' | 'light';
@@ -15,6 +16,7 @@ export function ShortcutsBar({
   onOpenShortcuts,
 }: ShortcutsBarProps) {
   const [minimized, setMinimized] = useState(false);
+  const { soundEnabled, toggleSound, playHover } = useAudioFeedback();
 
   if (minimized) {
     return (
@@ -82,6 +84,30 @@ export function ShortcutsBar({
         <span className="text-[11px] flex items-center gap-1">
           <FileText className="h-3 w-3 text-emerald-500" />
           Resume
+        </span>
+      </button>
+
+      <div className="h-3 w-px bg-slate-300 dark:bg-slate-700" />
+
+      {/* Audio Shortcut */}
+      <button
+        id="shortcut-indicator-audio"
+        type="button"
+        onMouseEnter={playHover}
+        onClick={toggleSound}
+        className="flex items-center gap-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+        title={soundEnabled ? 'Mute audio (Press S)' : 'Enable audio (Press S)'}
+      >
+        <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] font-mono font-bold text-slate-800 dark:text-emerald-400">
+          S
+        </kbd>
+        <span className="text-[11px] flex items-center gap-1">
+          {soundEnabled ? (
+            <Volume2 className="h-3 w-3 text-emerald-500" />
+          ) : (
+            <VolumeX className="h-3 w-3 text-slate-400" />
+          )}
+          Sound
         </span>
       </button>
 

@@ -1,5 +1,7 @@
 import { X, Printer, Mail, Phone, MapPin, ExternalLink, Briefcase, GraduationCap, Code2, Award, FolderGit2 } from 'lucide-react';
 import { ResumeData } from '../types';
+import { useProfilePhoto } from '../hooks/useProfilePhoto';
+import { playHoverTick, playClickSound } from '../utils/audioFeedback';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -8,9 +10,12 @@ interface ResumeModalProps {
 }
 
 export function ResumeModal({ isOpen, onClose, data }: ResumeModalProps) {
+  const { photoUrl } = useProfilePhoto('/nilam_clean_background.jpg');
+
   if (!isOpen) return null;
 
   const handlePrint = () => {
+    playClickSound();
     window.print();
   };
 
@@ -43,6 +48,7 @@ export function ResumeModal({ isOpen, onClose, data }: ResumeModalProps) {
             <button
               id="btn-print-resume"
               type="button"
+              onMouseEnter={playHoverTick}
               onClick={handlePrint}
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-medium transition-all shadow-md shadow-emerald-950/20"
               title="Print or Save as PDF"
@@ -58,7 +64,11 @@ export function ResumeModal({ isOpen, onClose, data }: ResumeModalProps) {
             <button
               id="btn-close-resume-modal"
               type="button"
-              onClick={onClose}
+              onMouseEnter={playHoverTick}
+              onClick={() => {
+                playClickSound();
+                onClose();
+              }}
               className="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-colors"
               aria-label="Close modal (Esc)"
             >
@@ -71,6 +81,19 @@ export function ResumeModal({ isOpen, onClose, data }: ResumeModalProps) {
         <div className="overflow-y-auto p-6 sm:p-10 space-y-8 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">
           {/* Header */}
           <div className="text-center border-b border-slate-200 dark:border-slate-800 pb-6">
+            <div className="flex justify-center mb-3">
+              <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-md">
+                <img
+                  src={photoUrl}
+                  alt={data.name}
+                  referrerPolicy="no-referrer"
+                  className="h-full w-full object-cover object-top"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              </div>
+            </div>
             <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
               {data.name}
             </h1>
@@ -236,6 +259,10 @@ export function ResumeModal({ isOpen, onClose, data }: ResumeModalProps) {
                 <span className="text-slate-700 dark:text-slate-300">Python, PHP, JavaScript</span>
               </div>
               <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800">
+                <span className="font-semibold text-emerald-700 dark:text-emerald-400 block mb-1">Data & Analytics:</span>
+                <span className="text-slate-700 dark:text-slate-300">Statistical Data Analysis, Data Analysis, Requirements Analysis, Problem Solving</span>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800">
                 <span className="font-semibold text-emerald-700 dark:text-emerald-400 block mb-1">Frameworks:</span>
                 <span className="text-slate-700 dark:text-slate-300">Flask, React.js, ASP.NET</span>
               </div>
@@ -251,10 +278,10 @@ export function ResumeModal({ isOpen, onClose, data }: ResumeModalProps) {
                 <span className="font-semibold text-emerald-700 dark:text-emerald-400 block mb-1">Tools:</span>
                 <span className="text-slate-700 dark:text-slate-300">Git, GitHub, VS Code</span>
               </div>
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800">
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 sm:col-span-2">
                 <span className="font-semibold text-emerald-700 dark:text-emerald-400 block mb-1">Key Competencies:</span>
                 <span className="text-slate-700 dark:text-slate-300">
-                  REST APIs, MVC Architecture, Database Design, Debugging, Unit Testing, RBAC, CRUD
+                  Statistical Data Analysis, Requirements Analysis, Problem Solving, REST APIs, MVC Architecture, Database Design, Debugging, Unit Testing, RBAC, CRUD
                 </span>
               </div>
             </div>

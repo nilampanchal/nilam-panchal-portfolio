@@ -2,8 +2,8 @@ import { ResumeData } from '../types';
 
 export const resumeData: ResumeData = {
   name: 'Nilam Panchal',
-  title: 'Python & Full-Stack Web Developer',
-  subtitle: 'Specializing in Flask, MySQL, REST APIs, Authentication & Role-Based Access Control',
+  title: 'Python & Full-Stack Web Developer | Data Analyst',
+  subtitle: 'Specializing in Python, Flask, MySQL, Statistical Data Analysis, REST APIs & Role-Based Access Control',
   location: 'Surat, Gujarat, India',
   email: 'nilampanchal944@gmail.com',
   phone: '+917984182221',
@@ -12,9 +12,35 @@ export const resumeData: ResumeData = {
   github: 'https://github.com/nilampanchal',
   githubDisplay: 'github.com/nilampanchal',
   summary:
-    'Experienced Python Developer proficient in Flask, MySQL, HTML, CSS, JavaScript, and full-stack web development. Skilled in creating academic and internship projects with CRUD operations, authentication, and role-based access control.',
+    'Experienced Python Developer and Data Analyst proficient in Python, Flask, MySQL, statistical data analysis, requirements analysis, and full-stack web development. Skilled in building data-driven applications, CRUD operations, authentication, and actionable analytics.',
   
   experiences: [
+    {
+      id: 'oasis-infobyte',
+      company: 'Oasis Infobyte',
+      role: 'Data Analyst',
+      period: '07/2026 - Present',
+      location: 'India (Remote)',
+      type: 'Internship',
+      description: [
+        'Conducted statistical data analysis, exploratory data inspection, and dataset preprocessing using Python.',
+        'Executed requirements analysis to interpret analytical goals and translate raw datasets into actionable problem-solving insights.',
+        'Utilized Python data libraries and relational database queries to analyze patterns, build analytical models, and optimize reporting accuracy.'
+      ],
+      technologies: [
+        'Python',
+        'Statistical Data Analysis',
+        'Data Analysis',
+        'Requirements Analysis',
+        'Problem Solving',
+        'SQL'
+      ],
+      highlights: [
+        'Statistical data analysis & exploratory inspection using Python',
+        'Requirements analysis & problem-solving methodology',
+        'Data-driven insights extraction & analytical reporting'
+      ]
+    },
     {
       id: 'unistar-softech',
       company: 'Unistar Softech Private Limited',
@@ -244,6 +270,17 @@ export const resumeData: ResumeData = {
       ]
     },
     {
+      title: 'Data & Analytics',
+      iconName: 'BarChart',
+      skills: [
+        { name: 'Statistical Data Analysis', level: 'Advanced', featured: true },
+        { name: 'Data Analysis', level: 'Advanced', featured: true },
+        { name: 'Requirements Analysis', level: 'Advanced', featured: true },
+        { name: 'Problem Solving', level: 'Advanced', featured: true },
+        { name: 'Python Analytics', level: 'Advanced', featured: true }
+      ]
+    },
+    {
       title: 'Architecture & Practices',
       iconName: 'ShieldCheck',
       skills: [
@@ -259,10 +296,14 @@ export const resumeData: ResumeData = {
   ],
 
   keyCompetencies: [
-    'Git & GitHub',
+    'Statistical Data Analysis',
+    'Requirements Analysis',
+    'Problem Solving',
+    'Data Analysis',
     'REST APIs',
     'MVC Architecture',
     'Database Design',
+    'Git & GitHub',
     'Debugging',
     'Unit Testing',
     'CRUD Operations',

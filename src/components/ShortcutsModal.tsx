@@ -1,4 +1,5 @@
-import { X, Keyboard, Sun, Moon, FileText, CornerDownLeft, Eye } from 'lucide-react';
+import { X, Keyboard, Sun, Moon, FileText, CornerDownLeft, Eye, Volume2 } from 'lucide-react';
+import { useAudioFeedback } from '../hooks/useAudioFeedback';
 
 interface ShortcutsModalProps {
   isOpen: boolean;
@@ -15,6 +16,8 @@ export function ShortcutsModal({
   onToggleTheme,
   onOpenResume,
 }: ShortcutsModalProps) {
+  const { soundEnabled, toggleSound } = useAudioFeedback();
+
   if (!isOpen) return null;
 
   const shortcuts = [
@@ -24,6 +27,13 @@ export function ShortcutsModal({
       description: `Switch between dark and light themes (currently ${theme === 'dark' ? 'Dark' : 'Light'})`,
       action: onToggleTheme,
       icon: theme === 'dark' ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-cyan-500" />,
+    },
+    {
+      key: 'S',
+      label: 'Toggle Sound Effects',
+      description: `Turn subtle button click and copy audio feedback on or off (currently ${soundEnabled ? 'Enabled' : 'Muted'})`,
+      action: toggleSound,
+      icon: <Volume2 className="h-4 w-4 text-emerald-500" />,
     },
     {
       key: 'R',

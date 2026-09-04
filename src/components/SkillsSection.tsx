@@ -1,4 +1,4 @@
-import { Code2, Layers, Database, Layout, Wrench, ShieldCheck, CheckCircle, Sparkles } from 'lucide-react';
+import { Code2, Layers, Database, Layout, Wrench, ShieldCheck, CheckCircle, Sparkles, BarChart3 } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
 
 export function SkillsSection() {
@@ -14,6 +14,8 @@ export function SkillsSection() {
         return <Layout className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />;
       case 'Wrench':
         return <Wrench className="h-4 w-4 text-teal-600 dark:text-teal-400" />;
+      case 'BarChart':
+        return <BarChart3 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />;
       case 'ShieldCheck':
         return <ShieldCheck className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />;
       default:

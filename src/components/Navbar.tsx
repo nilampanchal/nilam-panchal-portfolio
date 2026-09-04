@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, FileText, Send, Sun, Moon, Keyboard } from 'lucide-react';
+import { Menu, X, FileText, Send, Sun, Moon, Keyboard, Volume2, VolumeX } from 'lucide-react';
+import { useProfilePhoto } from '../hooks/useProfilePhoto';
+import { useAudioFeedback } from '../hooks/useAudioFeedback';
 
 interface NavbarProps {
   onOpenResume: () => void;
@@ -11,6 +13,8 @@ interface NavbarProps {
 export function Navbar({ onOpenResume, theme, onToggleTheme, onOpenShortcuts }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { photoUrl } = useProfilePhoto('/nilam_clean_background.jpg');
+  const { soundEnabled, toggleSound, playHover, playClick } = useAudioFeedback();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,8 +49,19 @@ export function Navbar({ onOpenResume, theme, onToggleTheme, onOpenShortcuts }: 
           href="#"
           className="flex items-center gap-2.5 group focus:outline-none"
         >
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center font-mono font-bold text-white shadow-md shadow-emerald-900/40 group-hover:scale-105 transition-transform">
-            NP
+          <div className="relative h-9 w-9 rounded-xl overflow-hidden border border-emerald-500/30 shadow-md shadow-emerald-900/30 group-hover:scale-105 transition-transform bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center">
+            <img
+              src={photoUrl}
+              alt="Nilam Panchal"
+              referrerPolicy="no-referrer"
+              className="h-full w-full object-cover object-top"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+            <span className="font-mono font-bold text-white text-xs">
+              NP
+            </span>
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-slate-900 dark:text-white tracking-tight text-base sm:text-lg group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
@@ -93,11 +108,36 @@ export function Navbar({ onOpenResume, theme, onToggleTheme, onOpenShortcuts }: 
             </kbd>
           </button>
 
+          {/* Audio Feedback Toggle */}
+          <button
+            id="btn-nav-audio-toggle"
+            type="button"
+            onMouseEnter={playHover}
+            onClick={toggleSound}
+            className={`p-2 rounded-xl transition-all border ${
+              soundEnabled
+                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-800'
+            }`}
+            title={soundEnabled ? 'Mute Button Audio Effects' : 'Enable Button Audio Effects'}
+            aria-label={soundEnabled ? 'Mute sound effects' : 'Enable sound effects'}
+          >
+            {soundEnabled ? (
+              <Volume2 className="h-4 w-4" />
+            ) : (
+              <VolumeX className="h-4 w-4" />
+            )}
+          </button>
+
           {/* Shortcuts Info Button */}
           <button
             id="btn-nav-shortcuts"
             type="button"
-            onClick={onOpenShortcuts}
+            onMouseEnter={playHover}
+            onClick={() => {
+              playClick();
+              onOpenShortcuts();
+            }}
             className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 transition-all"
             title="Keyboard Shortcuts [?]"
             aria-label="View keyboard shortcuts"
@@ -109,7 +149,11 @@ export function Navbar({ onOpenResume, theme, onToggleTheme, onOpenShortcuts }: 
           <button
             id="btn-nav-resume"
             type="button"
-            onClick={onOpenResume}
+            onMouseEnter={playHover}
+            onClick={() => {
+              playClick();
+              onOpenResume();
+            }}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-medium border border-slate-200 dark:border-slate-700/80 transition-all"
             title="View Resume [R]"
             aria-label="View Printable Resume. Shortcut: R"
@@ -125,6 +169,8 @@ export function Navbar({ onOpenResume, theme, onToggleTheme, onOpenShortcuts }: 
           <a
             id="btn-nav-hire"
             href="#contact"
+            onMouseEnter={playHover}
+            onClick={playClick}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md shadow-emerald-900/20 transition-all hover:shadow-emerald-900/40"
           >
             <Send className="h-3.5 w-3.5" />
@@ -134,6 +180,26 @@ export function Navbar({ onOpenResume, theme, onToggleTheme, onOpenShortcuts }: 
 
         {/* Mobile Action Controls */}
         <div className="flex items-center gap-1.5 md:hidden">
+          {/* Mobile Audio Toggle */}
+          <button
+            id="btn-nav-mobile-audio-toggle"
+            type="button"
+            onClick={toggleSound}
+            className={`p-2 rounded-xl border transition-colors ${
+              soundEnabled
+                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-800'
+            }`}
+            title={soundEnabled ? 'Mute sound' : 'Enable sound'}
+            aria-label="Toggle sound"
+          >
+            {soundEnabled ? (
+              <Volume2 className="h-4 w-4" />
+            ) : (
+              <VolumeX className="h-4 w-4" />
+            )}
+          </button>
+
           {/* Mobile Theme Toggle */}
           <button
             id="btn-nav-mobile-theme-toggle"
@@ -154,7 +220,10 @@ export function Navbar({ onOpenResume, theme, onToggleTheme, onOpenShortcuts }: 
           <button
             id="btn-nav-resume-mobile-quick"
             type="button"
-            onClick={onOpenResume}
+            onClick={() => {
+              playClick();
+              onOpenResume();
+            }}
             className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
             title="Preview Resume"
             aria-label="View Resume"
